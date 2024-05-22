@@ -1,58 +1,98 @@
 import React,{useState} from 'react'
 
-
+  // Function to convert text to upper Case
 export default function TextForm(props) {
   const handleUpClick = ()=>{
     console.log("Uppercase was clicked"+text);
     let newText = text.toUpperCase();
     setText(newText)
-    props.showAlert("converted to upperCase","success")
+    props.showAlert("converted to Upper Case","success")
   }
+
+    // Function to convert text to lower Case
   const handleLowClick = ()=>{
     console.log("Lowercase was clicked"+text);
     let newText = text.toLowerCase();
     setText(newText)
-    props.showAlert("converted to lowerCase","success")
+    props.showAlert(" Converted to Lower Case","success")
 
   }
 
 
-  const handleSentenceClick = ()=>{
-    let newText = text.toSentenceCase();
-    setText(newText)
-  }
-  const handleCapitilizedClick = ()=>{
-    let newText = text.toCapotilizedCase();
-    setText(newText)
-  }
-  const handleaLtErNaTiNgClick = ()=>{
-    let newText = text.toaLtErNaTiNgCase();
-    setText(newText)
-  }
-  const handleTitleClick = ()=>{
-    let newText = ("");
-    setText(newText)
-  }
-  const handleDownloadClick = ()=>{
-    let newText = ("");
-    setText(newText)
-  }
-  const handleInverseClick = ()=>{
-    let newText = ("");
-    setText(newText)
-  }
+  // Function to convert text to Sentence Case
+const handleSentenceClick = () => {
+  let newText = text.replace(/^.|\.\s*\w/g, (c) => c.toUpperCase());
+  setText(newText);
+  props.showAlert(" Converted to Sentance Case","success")
+
+};
+
+// Function to convert text to Capitalized Case
+const handleCapitilizedClick = () => {
+  let newText = text.toLowerCase().replace(/^.|\s\S/g, (a) => a.toUpperCase());
+  setText(newText);
+  props.showAlert(" Converted to Capitilized Case","success")
+
+};
+
+// Function to convert text to Alternating Case
+const handleaLtErNaTiNgClick = () => {
+  let newText = text
+    .split("")
+    .map((char, index) => (index % 2 === 0 ? char.toUpperCase() : char.toLowerCase()))
+    .join("");
+  setText(newText);
+  props.showAlert(" Converted to aLtErNaTiNg Case","success")
+
+};
+
+// Function to download text
+const handleDownloadClick = () => {
+  const element = document.createElement("a");
+  const file = new Blob([text], { type: "text/plain" });
+  element.href = URL.createObjectURL(file);
+  element.download = "text.txt";
+  document.body.appendChild(element); // Required for this to work in FireFox
+  element.click();
+  props.showAlert(" Downloaded Text","success")
+
+};
+// Function to convert text to Title Case
+const handleTitleClick = () => {
+  let newText = text.toLowerCase().split(' ').map((word) => {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+  setText(newText);
+  props.showAlert(" Converted to Title Case","success")
+
+};
+
+// Function to convert text to Inverse Case
+const handleInverseClick = () => {
+  let newText = text.split('').map((char) => {
+    return char === char.toUpperCase() ? char.toLowerCase() : char.toUpperCase();
+  }).join('');
+  setText(newText);
+  props.showAlert(" Converted to Inverse Case","success")
+
+};
+
+
+
+
+  // // to here
   const handleCopyClick = ()=>{
     var text = document.getElementById("myBox");
     text.select();
     navigator.clipboard.writeText(text.value);
     document.getSelection().removeAllRanges();
-    props.showAlert("copy to clipboard","success")
+    props.showAlert(" Copy to clipboard","success")
 
   }
   const handlClearClick = ()=>{
     let newText = ("");
     setText(newText)
-    props.showAlert("clear text","success")
+    props.showAlert(" Clear text","success")
 
   }
 
